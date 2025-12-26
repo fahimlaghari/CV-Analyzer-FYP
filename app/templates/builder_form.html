@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row justify-content-center mb-5">
+    <div class="col-md-8">
+        <div class="card shadow-lg border-0 rounded-4 glass-effect">
+            <div class="card-header bg-transparent border-0 text-center pt-4">
+                <h2 class="fw-bold text-primary"><i class="fas fa-pen-fancy me-2"></i>Create Your Resume</h2>
+                <p class="text-muted">Enter your details to generate a professional resume.</p>
+            </div>
+            
+            <div class="card-body p-5">
+                <form action="/build-resume" method="POST">
+                    
+                    <h5 class="fw-bold mb-3 text-dark border-bottom pb-2">1. Personal Information</h5>
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label class="form-label small text-muted">Full Name</label>
+                            <input type="text" name="name" class="form-control" placeholder="e.g. Fahim Laghari" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label small text-muted">Email Address</label>
+                            <input type="email" name="email" class="form-control" placeholder="e.g. fahimlaghari9@gmail.com" required>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label small text-muted">Phone Number</label>
+                        <input type="text" name="phone" class="form-control" placeholder="+92 300 1234567">
+                    </div>
+
+                    <h5 class="fw-bold mb-3 text-dark border-bottom pb-2 mt-4">2. Skills</h5>
+                    <div class="mb-3">
+                        <label class="form-label small text-muted">Technical Skills (Comma separated)</label>
+                        <input type="text" name="skills" class="form-control" placeholder="Python, React, SQL, Project Management..." required>
+                    </div>
+
+                    <h5 class="fw-bold mb-3 text-dark border-bottom pb-2 mt-4">3. Experience & Education</h5>
+                    <div class="mb-3">
+                        <label class="form-label small text-muted">Work Experience Summary</label>
+                        <textarea name="experience" class="form-control" rows="3" placeholder="Briefly describe your recent roles and achievements..."></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label small text-muted">Education Details</label>
+                        <textarea name="education" class="form-control" rows="2" placeholder="Degree, University, Graduation Year..."></textarea>
+                    </div>
+
+                    <h5 class="fw-bold mb-3 text-dark border-bottom pb-2 mt-4">4. Select Template</h5>
+                    <div class="row text-center">
+                        <div class="col-6">
+                            <input type="radio" class="btn-check" name="template" id="t1" value="modern" checked>
+                            <label class="btn btn-outline-primary w-100 p-3" for="t1">
+                                <i class="fas fa-columns fa-2x mb-2"></i><br>Modern Blue
+                            </label>
+                        </div>
+                        <div class="col-6">
+                            <input type="radio" class="btn-check" name="template" id="t2" value="classic">
+                            <label class="btn btn-outline-dark w-100 p-3" for="t2">
+                                <i class="fas fa-file-alt fa-2x mb-2"></i><br>Classic Minimal
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="text-center mt-5">
+                        <button type="submit" class="btn btn-success btn-lg rounded-pill px-5 shadow">
+                            Generate Preview <i class="fas fa-arrow-right ms-2"></i>
+                        </button>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

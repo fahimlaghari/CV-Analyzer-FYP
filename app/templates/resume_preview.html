@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ data.name }} - Professional Resume</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            background: #e9ecef;
+            padding: 40px 0;
+            font-family: 'Open Sans', sans-serif;
+        }
+
+        /* A4 Size Paper Logic */
+        .resume-page {
+            width: 210mm;
+            min-height: 297mm;
+            background: white;
+            margin: auto;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            position: relative;
+            display: flex;
+            overflow: hidden;
+        }
+
+        /* --- LEFT SIDEBAR (Dark Blue Theme) --- */
+        .sidebar {
+            width: 35%;
+            background-color: #1a252f; /* Premium Dark Blue */
+            color: white;
+            padding: 40px 25px;
+            text-align: center;
+        }
+
+        .profile-icon {
+            width: 120px;
+            height: 120px;
+            background: #2c3e50;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 30px;
+            border: 4px solid #34495e;
+            font-size: 3rem;
+            color: #bdc3c7;
+        }
+
+        .contact-info {
+            text-align: left;
+            margin-top: 40px;
+        }
+
+        .contact-item {
+            margin-bottom: 20px;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .contact-item i {
+            width: 30px;
+            color: #3498db; /* Accent Color */
+        }
+
+        .sidebar-title {
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: 700;
+            border-bottom: 2px solid #34495e;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+            margin-top: 40px;
+            text-align: left;
+            font-size: 1.1rem;
+        }
+
+        .skill-badge {
+            background: #34495e;
+            color: #ecf0f1;
+            padding: 8px 15px;
+            border-radius: 4px;
+            margin-bottom: 10px;
+            display: block;
+            text-align: left;
+            font-size: 0.9rem;
+            border-left: 4px solid #3498db;
+        }
+
+        /* --- RIGHT CONTENT (Clean White) --- */
+        .main-content {
+            width: 65%;
+            padding: 50px 40px;
+            color: #2c3e50;
+        }
+
+        .header-name {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 3.5rem;
+            font-weight: 700;
+            line-height: 1;
+            color: #2c3e50;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+
+        .header-role {
+            font-size: 1.2rem;
+            letter-spacing: 3px;
+            color: #7f8c8d;
+            text-transform: uppercase;
+            margin-bottom: 50px;
+        }
+
+        .main-title {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.4rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: #2c3e50;
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 10px;
+            margin-bottom: 30px;
+            display: inline-block;
+        }
+
+        /* Timeline Design for Experience */
+        .timeline-item {
+            position: relative;
+            padding-left: 30px;
+            margin-bottom: 30px;
+            border-left: 2px solid #ecf0f1;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -8px;
+            top: 5px;
+            width: 14px;
+            height: 14px;
+            background: #3498db;
+            border-radius: 50%;
+            border: 3px solid white;
+            box-shadow: 0 0 0 2px #3498db;
+        }
+
+        .timeline-title { font-weight: 700; font-size: 1.1rem; }
+        .timeline-text { font-size: 0.95rem; color: #555; line-height: 1.6; white-space: pre-line; }
+
+        /* Print Logic */
+        .action-bar { text-align: center; margin-bottom: 30px; }
+        @media print {
+            body { background: white; padding: 0; }
+            .resume-page { box-shadow: none; margin: 0; width: 100%; height: 100%; }
+            .action-bar { display: none !important; }
+            /* Force background colors in print */
+            .sidebar { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+            .skill-badge { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="action-bar">
+        <button onclick="window.print()" class="btn btn-primary btn-lg rounded-pill shadow fw-bold px-5">
+            <i class="fas fa-print me-2"></i> Print / Save as PDF
+        </button>
+        <a href="/build-resume" class="btn btn-outline-dark rounded-pill ms-3">Edit Details</a>
+    </div>
+
+    <div class="resume-page">
+        
+        <div class="sidebar">
+            <div class="profile-icon">
+                <span style="font-size: 2.5rem; font-weight: bold;">{{ data.name[0] }}</span>
+            </div>
+
+            <div class="sidebar-title">Contact</div>
+            <div class="contact-info">
+                <div class="contact-item">
+                    <i class="fas fa-envelope"></i>
+                    <span>{{ data.email }}</span>
+                </div>
+                <div class="contact-item">
+                    <i class="fas fa-phone"></i>
+                    <span>{{ data.phone }}</span>
+                </div>
+                <div class="contact-item">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <span>Pakistan</span>
+                </div>
+            </div>
+
+            <div class="sidebar-title">Expertise</div>
+            <div>
+                {% for skill in data.skills %}
+                    {% if skill.strip() %}
+                    <div class="skill-badge">
+                        {{ skill.strip() }}
+                    </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="main-content">
+            <div class="header-name">{{ data.name }}</div>
+            <div class="header-role">Computer Science Student</div>
+
+            <div style="margin-top: 40px;">
+                <div class="main-title"><i class="fas fa-briefcase me-2 text-primary"></i>Experience</div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-title">Professional Experience</div>
+                    <div class="timeline-text">
+                        {{ data.experience }}
+                    </div>
+                </div>
+            </div>
+
+            <div style="margin-top: 30px;">
+                <div class="main-title"><i class="fas fa-graduation-cap me-2 text-primary"></i>Education</div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-title">Academic Background</div>
+                    <div class="timeline-text">
+                        {{ data.education }}
+                    </div>
+                </div>
+            </div>
+
+            <div style="margin-top: 30px;">
+                <div class="main-title"><i class="fas fa-user me-2 text-primary"></i>Profile</div>
+                <p class="timeline-text">
+                    A dedicated and skilled professional with a strong foundation in Computer Science. 
+                    Passionate about leveraging technology to solve real-world problems. 
+                    Quick learner with a keen interest in modern web technologies and AI.
+                </p>
+            </div>
+
+        </div>
+    </div>
+
+</body>
+</html>

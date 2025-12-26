@@ -4,24 +4,37 @@
 
 <div class="text-center mb-5">
     <h1 class="display-4 fw-bold mb-3">Optimize Your <span class="text-primary">Career</span></h1>
-    <p class="lead text-muted">Upload your resume and let our AI analyze your skills, score, and job fit.</p>
+    <p class="lead text-muted">Upload your resume to analyze skills, score, and job eligibility.</p>
 </div>
 
 <div class="row justify-content-center">
-    <div class="col-md-6">
+    <div class="col-md-8">
         <div class="card shadow-lg border-0 rounded-4 p-4 glass-effect">
             <div class="card-body text-center">
                 <form action="/" method="post" enctype="multipart/form-data">
                     
-                    <div class="upload-area p-5 mb-4 border rounded-3 bg-light">
-                        <i class="fas fa-cloud-upload-alt fa-3x text-primary mb-3"></i>
-                        <h5>Drop your Resume PDF here</h5>
-                        <p class="text-muted small">or click to browse</p>
-                        <input type="file" name="cv_file" class="form-control mt-3" accept=".pdf" required>
+                    <div class="upload-area p-4 mb-3 border rounded-3 bg-white shadow-sm">
+                        <i class="fas fa-cloud-upload-alt fa-3x text-primary mb-2"></i>
+                        <h6 class="fw-bold">Upload Resume (PDF)</h6>
+                        <input type="file" name="cv_file" class="form-control mt-2" accept=".pdf" required>
                     </div>
 
-                    <button type="submit" class="btn btn-primary btn-lg w-100 rounded-pill shadow-sm" onclick="startScan()">
-                        <i class="fas fa-rocket me-2"></i> Analyze Now
+                    <div class="text-start mb-3">
+                        <a class="text-decoration-none fw-bold text-primary small" data-bs-toggle="collapse" href="#jdCollapse" role="button" aria-expanded="false">
+                            <i class="fas fa-plus-circle me-1"></i> Add Job Description for Matching (Optional)
+                        </a>
+                        
+                        <div class="collapse mt-2" id="jdCollapse">
+                            <div class="card card-body border-0 bg-light p-3 rounded-3">
+                                <label class="small text-muted mb-1">Paste Job Requirements:</label>
+                                <textarea name="job_description" class="form-control border-0 shadow-sm" rows="3" 
+                                          placeholder="e.g. We need Python, React, and SQL skills..."></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary w-100 rounded-pill shadow fw-bold py-2" onclick="startScan()">
+                        <i class="fas fa-search me-2"></i> Analyze Now
                     </button>
                 </form>
             </div>
@@ -30,53 +43,99 @@
 </div>
 
 {% if score %}
-<div class="row mt-5 animate-bottom">
-    <div class="col-md-4">
-        <div class="card bg-dark text-white p-4 rounded-4 text-center h-100">
-            <h5 class="opacity-75">Resume Score</h5>
-            <div class="display-1 fw-bold text-{{ 'success' if score > 70 else 'warning' }} my-3">
-                {{ score }}<span class="fs-4">/100</span>
-            </div>
-            <p class="small">Based on industry standards</p>
-        </div>
-    </div>
 
-    <div class="col-md-8">
-        <div class="card border-0 shadow-sm p-4 rounded-4 h-100">
-            <h5 class="fw-bold mb-3">Detected Skills</h5>
-            <div>
-                {% for skill in skills %}
-                    <span class="badge bg-primary bg-opacity-10 text-primary px-3 py-2 rounded-pill me-2 mb-2">
-                        {{ skill }}
-                    </span>
-                {% else %}
-                    <p class="text-muted">No skills detected yet.</p>
-                {% endfor %}
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="mt-5">
-    <h4 class="fw-bold mb-4"><i class="fas fa-briefcase text-primary me-2"></i> Recommended Jobs</h4>
-    <div class="row">
-        {% for job in jobs %}
-        <div class="col-md-6 mb-3">
-            <a href="{{ job.link }}" target="_blank" class="text-decoration-none">
-                <div class="card job-card h-100 p-3 border-0 shadow-sm">
-                    <div class="d-flex justify-content-between align-items-center">
-                        <div>
-                            <h6 class="fw-bold text-dark mb-1">{{ job.title }}</h6>
-                            <small class="text-muted">{{ job.company }}</small>
+    {% if jd_match is not none %}
+    <div class="row mt-5 animate-bottom">
+        <div class="col-12">
+            <div class="card border-0 shadow-sm rounded-4 p-4 text-white" 
+                 style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                <div class="row align-items-center">
+                    <div class="col-md-8">
+                        <h4 class="fw-bold mb-2"><i class="fas fa-bullseye me-2"></i>Job Fit Analysis</h4>
+                        <p class="mb-0 opacity-75">Based on the Job Description you provided.</p>
+                        
+                        {% if missing_keywords %}
+                        <div class="mt-3 p-3 bg-white bg-opacity-25 rounded-3">
+                            <small class="fw-bold text-warning">
+                                <i class="fas fa-exclamation-triangle me-1"></i> Missing Skills:
+                            </small>
+                            <div class="mt-2">
+                                {% for word in missing_keywords %}
+                                    <span class="badge bg-danger bg-opacity-75 me-1">{{ word }}</span>
+                                {% endfor %}
+                            </div>
                         </div>
-                        <i class="fas fa-external-link-alt text-muted"></i>
+                        {% else %}
+                            <div class="mt-3 fw-bold text-light">
+                                <i class="fas fa-check-circle me-1"></i> Perfect Match! You have all required skills.
+                            </div>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="col-md-4 text-center border-start border-white border-opacity-25">
+                        <h1 class="display-1 fw-bold mb-0">{{ jd_match }}%</h1>
+                        <span class="badge bg-white text-primary rounded-pill px-3">Match Score</span>
                     </div>
                 </div>
-            </a>
+            </div>
         </div>
-        {% endfor %}
     </div>
-</div>
+    {% endif %}
+
+    <div class="row mt-4 animate-bottom">
+        <div class="col-md-4">
+            <div class="card bg-dark text-white p-4 rounded-4 text-center h-100 shadow-sm position-relative overflow-hidden">
+                <h5 class="opacity-75 mb-3">Resume Score</h5>
+                
+                <div style="position: relative; height: 200px; width: 100%; display: flex; justify-content: center;">
+                    <canvas id="scoreChart"></canvas>
+                    
+                    <div style="position: absolute; top: 58%; left: 50%; transform: translate(-50%, -50%); text-align: center;">
+                        <h1 class="display-4 fw-bold mb-0 text-white">{{ score }}%</h1>
+                    </div>
+                </div>
+
+                <p class="small text-muted mt-3">Calculated based on skill density & format.</p>
+            </div>
+        </div>
+
+        <div class="col-md-8">
+            <div class="card border-0 shadow-sm p-4 rounded-4 h-100">
+                <h5 class="fw-bold mb-3 text-primary"><i class="fas fa-laptop-code me-2"></i>Detected Skills</h5>
+                <div>
+                    {% for skill in skills %}
+                        <span class="badge bg-primary bg-opacity-10 text-primary px-3 py-2 rounded-pill me-2 mb-2">
+                            {{ skill }}
+                        </span>
+                    {% else %}
+                        <p class="text-muted">No specific technical skills detected.</p>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="mt-5 animate-bottom">
+        <h4 class="fw-bold mb-4"><i class="fas fa-briefcase text-primary me-2"></i> Live Job Recommendations</h4>
+        <div class="row">
+            {% for job in jobs %}
+            <div class="col-md-6 mb-3">
+                <a href="{{ job.link }}" target="_blank" class="text-decoration-none">
+                    <div class="card job-card h-100 p-3 border-0 shadow-sm">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <h6 class="fw-bold text-dark mb-1">{{ job.title }}</h6>
+                                <small class="text-muted">{{ job.company }}</small>
+                            </div>
+                            <i class="fas fa-external-link-alt text-muted"></i>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
 {% endif %}
 
 <div id="loading-screen" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.9); z-index:9999; flex-direction:column; align-items:center; justify-content:center; color:white;">
@@ -88,6 +147,44 @@
     function startScan() {
         document.getElementById('loading-screen').style.display = 'flex';
     }
+
+    // Chart Logic (Sirf tab chalega jab Score hoga)
+    {% if score %}
+    document.addEventListener("DOMContentLoaded", function() {
+        var score = {{ score }};
+        
+        // Dynamic Colors based on Score
+        var color = score >= 70 ? '#198754' : (score >= 40 ? '#ffc107' : '#dc3545');
+        var emptyColor = '#495057'; 
+
+        var ctx = document.getElementById('scoreChart').getContext('2d');
+        var scoreChart = new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Score', 'Remaining'],
+                datasets: [{
+                    data: [score, 100 - score],
+                    backgroundColor: [color, emptyColor],
+                    borderWidth: 0,
+                    hoverOffset: 4
+                }]
+            },
+            options: {
+                cutout: '80%', 
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false },
+                    tooltip: { enabled: false }
+                },
+                animation: {
+                    animateScale: true,
+                    animateRotate: true
+                }
+            }
+        });
+    });
+    {% endif %}
 </script>
 
 {% endblock %}
