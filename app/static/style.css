@@ -1,0 +1,61 @@
+/* --- Google Font --- */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #f8f9fa; /* Light Grey Background */
+    color: #333;
+}
+
+/* --- Glassmorphism Card Effect --- */
+.glass-effect {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
+}
+
+/* --- Upload Area Styling --- */
+.upload-area {
+    border: 2px dashed #dee2e6 !important;
+    background-color: #ffffff;
+    transition: all 0.3s ease;
+}
+
+.upload-area:hover {
+    border-color: #0d6efd !important;
+    background-color: #f1f8ff !important;
+    transform: scale(1.02);
+    cursor: pointer;
+}
+
+/* --- Job Cards Styling --- */
+.job-card {
+    transition: transform 0.2s, box-shadow 0.2s;
+    border-left: 5px solid #0d6efd; /* Blue accent line */
+}
+
+.job-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1) !important;
+    background-color: #fff;
+}
+
+/* --- Animation for Result Section --- */
+.animate-bottom {
+    animation: slideUp 0.8s ease;
+}
+
+@keyframes slideUp {
+    from { transform: translateY(50px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+/* --- Navbar Styling --- */
+.navbar {
+    background: #1a1a2e !important; /* Dark Blue Professional */
+}
+
+.navbar-brand i {
+    color: #0d6efd;
+}

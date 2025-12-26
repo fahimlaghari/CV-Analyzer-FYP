@@ -1,0 +1,93 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="text-center mb-5">
+    <h1 class="display-4 fw-bold mb-3">Optimize Your <span class="text-primary">Career</span></h1>
+    <p class="lead text-muted">Upload your resume and let our AI analyze your skills, score, and job fit.</p>
+</div>
+
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card shadow-lg border-0 rounded-4 p-4 glass-effect">
+            <div class="card-body text-center">
+                <form action="/" method="post" enctype="multipart/form-data">
+                    
+                    <div class="upload-area p-5 mb-4 border rounded-3 bg-light">
+                        <i class="fas fa-cloud-upload-alt fa-3x text-primary mb-3"></i>
+                        <h5>Drop your Resume PDF here</h5>
+                        <p class="text-muted small">or click to browse</p>
+                        <input type="file" name="cv_file" class="form-control mt-3" accept=".pdf" required>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary btn-lg w-100 rounded-pill shadow-sm" onclick="startScan()">
+                        <i class="fas fa-rocket me-2"></i> Analyze Now
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% if score %}
+<div class="row mt-5 animate-bottom">
+    <div class="col-md-4">
+        <div class="card bg-dark text-white p-4 rounded-4 text-center h-100">
+            <h5 class="opacity-75">Resume Score</h5>
+            <div class="display-1 fw-bold text-{{ 'success' if score > 70 else 'warning' }} my-3">
+                {{ score }}<span class="fs-4">/100</span>
+            </div>
+            <p class="small">Based on industry standards</p>
+        </div>
+    </div>
+
+    <div class="col-md-8">
+        <div class="card border-0 shadow-sm p-4 rounded-4 h-100">
+            <h5 class="fw-bold mb-3">Detected Skills</h5>
+            <div>
+                {% for skill in skills %}
+                    <span class="badge bg-primary bg-opacity-10 text-primary px-3 py-2 rounded-pill me-2 mb-2">
+                        {{ skill }}
+                    </span>
+                {% else %}
+                    <p class="text-muted">No skills detected yet.</p>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="mt-5">
+    <h4 class="fw-bold mb-4"><i class="fas fa-briefcase text-primary me-2"></i> Recommended Jobs</h4>
+    <div class="row">
+        {% for job in jobs %}
+        <div class="col-md-6 mb-3">
+            <a href="{{ job.link }}" target="_blank" class="text-decoration-none">
+                <div class="card job-card h-100 p-3 border-0 shadow-sm">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h6 class="fw-bold text-dark mb-1">{{ job.title }}</h6>
+                            <small class="text-muted">{{ job.company }}</small>
+                        </div>
+                        <i class="fas fa-external-link-alt text-muted"></i>
+                    </div>
+                </div>
+            </a>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endif %}
+
+<div id="loading-screen" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.9); z-index:9999; flex-direction:column; align-items:center; justify-content:center; color:white;">
+    <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status"></div>
+    <h3 class="mt-3 font-monospace">AI ANALYZING...</h3>
+</div>
+
+<script>
+    function startScan() {
+        document.getElementById('loading-screen').style.display = 'flex';
+    }
+</script>
+
+{% endblock %}

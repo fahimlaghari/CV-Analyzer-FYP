@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row justify-content-center align-items-center" style="height: 60vh;">
+    <div class="col-md-4">
+        <div class="card glass-effect border-0 rounded-4 shadow-lg">
+            <div class="card-body p-5 text-center">
+                
+                <div class="mb-4">
+                    <i class="fas fa-user-shield fa-4x text-primary"></i>
+                </div>
+                <h3 class="fw-bold mb-4">Admin Login</h3>
+
+                {% if error %}
+                    <div class="alert alert-danger p-2 small">{{ error }}</div>
+                {% endif %}
+
+                <form method="POST">
+                    <div class="mb-3 text-start">
+                        <label class="form-label text-muted small">Username</label>
+                        <input type="text" name="username" class="form-control rounded-pill" placeholder="Enter username" required>
+                    </div>
+                    
+                    <div class="mb-4 text-start">
+                        <label class="form-label text-muted small">Password</label>
+                        <input type="password" name="password" class="form-control rounded-pill" placeholder="Enter password" required>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary w-100 rounded-pill py-2 fw-bold shadow-sm">
+                        Login <i class="fas fa-arrow-right ms-2"></i>
+                    </button>
+                </form>
+                
+                <div class="mt-4">
+                    <a href="/" class="text-muted small text-decoration-none">Back to Home</a>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
