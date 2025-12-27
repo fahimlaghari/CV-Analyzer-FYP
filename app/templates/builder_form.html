@@ -1,68 +1,189 @@
 {% extends "base.html" %}
 
 {% block content %}
+<style>
+    
+    .theme-card {
+        height: 220px;
+        border: 2px solid #e9ecef;
+        border-radius: 12px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        overflow: hidden;
+        background: white;
+        position: relative;
+    }
+
+    /* Selection State */
+    .btn-check:checked + label .theme-card {
+        border-color: #0d6efd;
+        box-shadow: 0 10px 30px rgba(13, 110, 253, 0.2);
+        transform: translateY(-5px);
+    }
+
+    /* Checkmark Badge */
+    .check-badge {
+        position: absolute; top: 10px; right: 10px;
+        background: #0d6efd; color: white;
+        width: 25px; height: 25px; border-radius: 50%;
+        display: none; align-items: center; justify-content: center;
+        font-size: 0.8rem; z-index: 10;
+    }
+    .btn-check:checked + label .check-badge { display: flex; }
+
+    /* --- THEME 1: MODERN (Sidebar Visual) --- */
+    .visual-modern { height: 100%; display: flex; }
+    .vm-left { width: 35%; background: #2c3e50; height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; }
+    .vm-right { width: 65%; background: white; height: 100%; position: relative; }
+    /* Shapes */
+    .vm-circle { width: 40px; height: 40px; background: #34495e; border-radius: 50%; margin-bottom: 10px; border: 2px solid #5d6d7e; }
+    .vm-line { height: 4px; background: #bdc3c7; width: 60%; margin: 3px 0; border-radius: 2px; }
+    .vm-decor { position: absolute; top: 20px; left: 15px; width: 40%; height: 8px; background: #2c3e50; border-radius: 2px; }
+    
+    /* --- THEME 2: CLASSIC (Clean Visual) --- */
+    .visual-classic { height: 100%; background: #fff; padding: 20px; display: flex; flex-direction: column; align-items: center; justify-content: center; border: 1px solid #f0f0f0; }
+    .vc-head { font-family: 'Times New Roman', serif; font-size: 1.5rem; font-weight: bold; color: #333; margin-bottom: 5px; }
+    .vc-line { height: 1px; width: 100%; background: #333; margin: 10px 0; }
+    .vc-block { height: 4px; width: 100%; background: #ddd; margin-bottom: 4px; }
+
+    /* --- THEME 3: CREATIVE (Header Visual) --- */
+    .visual-creative { height: 100%; background: white; }
+    .vcr-header { height: 70px; background: #0d6efd; display: flex; align-items: center; padding-left: 15px; }
+    .vcr-circle { width: 35px; height: 35px; background: white; border-radius: 50%; opacity: 0.9; }
+    .vcr-body { padding: 15px; }
+    .vcr-tag { display: inline-block; padding: 4px 8px; background: #e3f2fd; color: #0d6efd; border-radius: 4px; font-size: 0.7rem; font-weight: bold; margin-right: 5px; }
+</style>
+
 <div class="row justify-content-center mb-5">
-    <div class="col-md-8">
+    <div class="col-md-10">
         <div class="card shadow-lg border-0 rounded-4 glass-effect">
-            <div class="card-header bg-transparent border-0 text-center pt-4">
-                <h2 class="fw-bold text-primary"><i class="fas fa-pen-fancy me-2"></i>Create Your Resume</h2>
-                <p class="text-muted">Enter your details to generate a professional resume.</p>
+            <div class="card-header bg-transparent border-0 text-center pt-5 pb-3">
+                <h1 class="fw-bold text-dark display-6">Resume Builder</h1>
+                <p class="text-muted">Select a professional layout.</p>
             </div>
             
-            <div class="card-body p-5">
+            <div class="card-body p-5 pt-0">
                 <form action="/build-resume" method="POST">
                     
-                    <h5 class="fw-bold mb-3 text-dark border-bottom pb-2">1. Personal Information</h5>
-                    <div class="row mb-3">
-                        <div class="col-md-6">
-                            <label class="form-label small text-muted">Full Name</label>
-                            <input type="text" name="name" class="form-control" placeholder="e.g. Fahim Laghari" required>
-                        </div>
-                        <div class="col-md-6">
-                            <label class="form-label small text-muted">Email Address</label>
-                            <input type="email" name="email" class="form-control" placeholder="e.g. fahimlaghari9@gmail.com" required>
-                        </div>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label small text-muted">Phone Number</label>
-                        <input type="text" name="phone" class="form-control" placeholder="+92 300 1234567">
-                    </div>
-
-                    <h5 class="fw-bold mb-3 text-dark border-bottom pb-2 mt-4">2. Skills</h5>
-                    <div class="mb-3">
-                        <label class="form-label small text-muted">Technical Skills (Comma separated)</label>
-                        <input type="text" name="skills" class="form-control" placeholder="Python, React, SQL, Project Management..." required>
-                    </div>
-
-                    <h5 class="fw-bold mb-3 text-dark border-bottom pb-2 mt-4">3. Experience & Education</h5>
-                    <div class="mb-3">
-                        <label class="form-label small text-muted">Work Experience Summary</label>
-                        <textarea name="experience" class="form-control" rows="3" placeholder="Briefly describe your recent roles and achievements..."></textarea>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label small text-muted">Education Details</label>
-                        <textarea name="education" class="form-control" rows="2" placeholder="Degree, University, Graduation Year..."></textarea>
-                    </div>
-
-                    <h5 class="fw-bold mb-3 text-dark border-bottom pb-2 mt-4">4. Select Template</h5>
-                    <div class="row text-center">
-                        <div class="col-6">
+                    <h5 class="fw-bold mb-4 text-primary"><i class="fas fa-layer-group me-2"></i>Step 1: Select Layout</h5>
+                    
+                    <div class="row g-4 justify-content-center mb-5">
+                        
+                        <div class="col-md-4">
                             <input type="radio" class="btn-check" name="template" id="t1" value="modern" checked>
-                            <label class="btn btn-outline-primary w-100 p-3" for="t1">
-                                <i class="fas fa-columns fa-2x mb-2"></i><br>Modern Blue
+                            <label class="w-100" for="t1">
+                                <div class="check-badge"><i class="fas fa-check"></i></div>
+                                <div class="theme-card">
+                                    <div class="visual-modern">
+                                        <div class="vm-left">
+                                            <div class="vm-circle"></div>
+                                            <div class="vm-line"></div>
+                                            <div class="vm-line"></div>
+                                        </div>
+                                        <div class="vm-right">
+                                            <div class="vm-decor"></div>
+                                            <div style="position:absolute; top:40px; left:15px; width:80%; height:4px; background:#ddd;"></div>
+                                            <div style="position:absolute; top:50px; left:15px; width:60%; height:4px; background:#ddd;"></div>
+                                        </div>
+                                    </div>
+                                    <div class="p-2 text-center bg-light border-top" style="position:absolute; bottom:0; width:100%;">
+                                        <h6 class="fw-bold mb-0">Corporate Blue</h6>
+                                        <small class="text-muted" style="font-size:0.7rem;">Sidebar Layout</small>
+                                    </div>
+                                </div>
                             </label>
                         </div>
-                        <div class="col-6">
+
+                        <div class="col-md-4">
                             <input type="radio" class="btn-check" name="template" id="t2" value="classic">
-                            <label class="btn btn-outline-dark w-100 p-3" for="t2">
-                                <i class="fas fa-file-alt fa-2x mb-2"></i><br>Classic Minimal
+                            <label class="w-100" for="t2">
+                                <div class="check-badge"><i class="fas fa-check"></i></div>
+                                <div class="theme-card">
+                                    <div class="visual-classic">
+                                        <div class="vc-head">Aa</div>
+                                        <div class="text-muted small">Standard Format</div>
+                                        <div class="vc-line"></div>
+                                        <div class="vc-block" style="width:80%"></div>
+                                        <div class="vc-block" style="width:60%"></div>
+                                    </div>
+                                    <div class="p-2 text-center bg-light border-top" style="position:absolute; bottom:0; width:100%;">
+                                        <h6 class="fw-bold mb-0">Classic Clean</h6>
+                                        <small class="text-muted" style="font-size:0.7rem;">ATS Friendly</small>
+                                    </div>
+                                </div>
                             </label>
+                        </div>
+
+                        <div class="col-md-4">
+                            <input type="radio" class="btn-check" name="template" id="t3" value="creative">
+                            <label class="w-100" for="t3">
+                                <div class="check-badge"><i class="fas fa-check"></i></div>
+                                <div class="theme-card">
+                                    <div class="visual-creative">
+                                        <div class="vcr-header">
+                                            <div class="vcr-circle"></div>
+                                        </div>
+                                        <div class="vcr-body">
+                                            <div class="vcr-tag">SKILL</div>
+                                            <div class="vcr-tag">CODE</div>
+                                            <div style="margin-top:15px; height:4px; width:100%; background:#eee;"></div>
+                                            <div style="margin-top:5px; height:4px; width:70%; background:#eee;"></div>
+                                        </div>
+                                    </div>
+                                    <div class="p-2 text-center bg-light border-top" style="position:absolute; bottom:0; width:100%;">
+                                        <h6 class="fw-bold mb-0">Modern Pro</h6>
+                                        <small class="text-muted" style="font-size:0.7rem;">Header Accent</small>
+                                    </div>
+                                </div>
+                            </label>
+                        </div>
+
+                    </div>
+
+                    <h5 class="fw-bold mb-4 text-primary"><i class="fas fa-pen-alt me-2"></i>Step 2: Enter Details</h5>
+                    
+                    <div class="p-4 rounded-3 bg-light border">
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label class="small fw-bold text-muted mb-1">Full Name</label>
+                                <input type="text" name="name" class="form-control" placeholder="e.g. Fahim Laghari" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="small fw-bold text-muted mb-1">Job Title</label>
+                                <input type="text" name="role" class="form-control" placeholder="e.g. Software Engineer" required>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label class="small fw-bold text-muted mb-1">Email</label>
+                                <input type="email" name="email" class="form-control" placeholder="fahim@example.com" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="small fw-bold text-muted mb-1">Phone</label>
+                                <input type="text" name="phone" class="form-control" placeholder="+92 300 1234567">
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="small fw-bold text-muted mb-1">Skills (Comma Separated)</label>
+                            <input type="text" name="skills" class="form-control" placeholder="Python, Java, HTML, CSS, Flask..." required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="small fw-bold text-muted mb-1">Professional Experience</label>
+                            <textarea name="experience" class="form-control" rows="4" placeholder="Describe your experience..."></textarea>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="small fw-bold text-muted mb-1">Education</label>
+                            <textarea name="education" class="form-control" rows="3" placeholder="University Degree, Year..."></textarea>
                         </div>
                     </div>
 
                     <div class="text-center mt-5">
-                        <button type="submit" class="btn btn-success btn-lg rounded-pill px-5 shadow">
-                            Generate Preview <i class="fas fa-arrow-right ms-2"></i>
+                        <button type="submit" class="btn btn-dark btn-lg rounded-pill px-5 py-3 shadow fw-bold">
+                            Generate Resume <i class="fas fa-arrow-right ms-2"></i>
                         </button>
                     </div>
 
