@@ -1,195 +1,378 @@
 {% extends "base.html" %}
 
 {% block content %}
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
 <style>
-    
-    .theme-card {
-        height: 220px;
-        border: 2px solid #e9ecef;
-        border-radius: 12px;
-        cursor: pointer;
-        transition: all 0.3s ease;
+    .pro-card {
+        border: none;
+        border-radius: 20px;
+        background: #ffffff;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.08);
         overflow: hidden;
-        background: white;
+    }
+
+    .template-option {
+        cursor: pointer;
+        border: 2px solid #eaecf0;
+        border-radius: 15px;
+        padding: 20px;
+        text-align: center;
+        background: #ffffff;
+        transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
         position: relative;
     }
-
-    /* Selection State */
-    .btn-check:checked + label .theme-card {
-        border-color: #0d6efd;
-        box-shadow: 0 10px 30px rgba(13, 110, 253, 0.2);
-        transform: translateY(-5px);
-    }
-
-    /* Checkmark Badge */
-    .check-badge {
-        position: absolute; top: 10px; right: 10px;
-        background: #0d6efd; color: white;
-        width: 25px; height: 25px; border-radius: 50%;
-        display: none; align-items: center; justify-content: center;
-        font-size: 0.8rem; z-index: 10;
-    }
-    .btn-check:checked + label .check-badge { display: flex; }
-
-    /* --- THEME 1: MODERN (Sidebar Visual) --- */
-    .visual-modern { height: 100%; display: flex; }
-    .vm-left { width: 35%; background: #2c3e50; height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; }
-    .vm-right { width: 65%; background: white; height: 100%; position: relative; }
-    /* Shapes */
-    .vm-circle { width: 40px; height: 40px; background: #34495e; border-radius: 50%; margin-bottom: 10px; border: 2px solid #5d6d7e; }
-    .vm-line { height: 4px; background: #bdc3c7; width: 60%; margin: 3px 0; border-radius: 2px; }
-    .vm-decor { position: absolute; top: 20px; left: 15px; width: 40%; height: 8px; background: #2c3e50; border-radius: 2px; }
     
-    /* --- THEME 2: CLASSIC (Clean Visual) --- */
-    .visual-classic { height: 100%; background: #fff; padding: 20px; display: flex; flex-direction: column; align-items: center; justify-content: center; border: 1px solid #f0f0f0; }
-    .vc-head { font-family: 'Times New Roman', serif; font-size: 1.5rem; font-weight: bold; color: #333; margin-bottom: 5px; }
-    .vc-line { height: 1px; width: 100%; background: #333; margin: 10px 0; }
-    .vc-block { height: 4px; width: 100%; background: #ddd; margin-bottom: 4px; }
+    .template-option:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+        border-color: #b0c4de;
+    }
 
-    /* --- THEME 3: CREATIVE (Header Visual) --- */
-    .visual-creative { height: 100%; background: white; }
-    .vcr-header { height: 70px; background: #0d6efd; display: flex; align-items: center; padding-left: 15px; }
-    .vcr-circle { width: 35px; height: 35px; background: white; border-radius: 50%; opacity: 0.9; }
-    .vcr-body { padding: 15px; }
-    .vcr-tag { display: inline-block; padding: 4px 8px; background: #e3f2fd; color: #0d6efd; border-radius: 4px; font-size: 0.7rem; font-weight: bold; margin-right: 5px; }
+    .template-option.active {
+        border-color: #4facfe;
+        background: linear-gradient(to bottom right, #f0f9ff, #e0f2fe);
+        box-shadow: 0 8px 25px rgba(79, 172, 254, 0.2);
+    }
+
+    .template-option.active::after {
+        content: '\f00c';
+        font-family: "Font Awesome 6 Free";
+        font-weight: 900;
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        color: #4facfe;
+        background: rgba(255,255,255,0.8);
+        border-radius: 50%;
+        padding: 2px 5px;
+        font-size: 14px;
+    }
+
+    .template-icon {
+        font-size: 32px;
+        margin-bottom: 15px;
+        background: -webkit-linear-gradient(45deg, #4facfe, #00f2fe);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+    .form-label {
+        font-weight: 600;
+        font-size: 13px;
+        color: #344054;
+        margin-bottom: 8px;
+    }
+
+    .input-group-text {
+        background: #f9fafb;
+        border: 1px solid #e4e7ec;
+        border-right: none;
+        color: #667085;
+        border-radius: 12px 0 0 12px;
+    }
+
+    .form-control {
+        background-color: #f9fafb;
+        border: 1px solid #e4e7ec;
+        border-radius: 0 12px 12px 0;
+        padding: 12px 15px;
+        font-size: 14px;
+        transition: all 0.3s ease;
+    }
+    
+    .form-control.single { border-radius: 12px; }
+
+    .form-control:focus {
+        background-color: #fff;
+        border-color: #4facfe;
+        box-shadow: 0 0 0 4px rgba(79, 172, 254, 0.1);
+    }
+    .section-header {
+        display: flex;
+        align-items: center;
+        margin-bottom: 25px;
+        margin-top: 10px;
+    }
+    
+    .section-header span {
+        background: #4facfe;
+        color: white;
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 12px;
+        font-weight: bold;
+        margin-right: 12px;
+        box-shadow: 0 4px 10px rgba(79, 172, 254, 0.3);
+    }
+    
+    .section-header h6 {
+        font-weight: 700;
+        text-transform: uppercase;
+        color: #98a2b3;
+        font-size: 12px;
+        margin: 0;
+        letter-spacing: 1px;
+    }
+
+    .section-line {
+        flex-grow: 1;
+        height: 1px;
+        background: #eaecf0;
+        margin-left: 15px;
+    }
+    .btn-ai {
+        background: linear-gradient(45deg, #8e2de2, #4a00e0);
+        color: white;
+        border: none;
+        padding: 0 15px;
+        font-weight: 600;
+        font-size: 12px;
+        border-radius: 0 12px 12px 0;
+        transition: 0.3s;
+        cursor: pointer;
+    }
+    .btn-ai:hover { background: linear-gradient(45deg, #4a00e0, #8e2de2); }
+    .btn-ai:disabled { background: #ccc; cursor: not-allowed; }
+    .btn-generate {
+        background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        border: none;
+        color: white;
+        transition: transform 0.2s, box-shadow 0.2s;
+    }
+    
+    .btn-generate:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 25px rgba(79, 172, 254, 0.4);
+    }
 </style>
 
-<div class="row justify-content-center mb-5">
-    <div class="col-md-10">
-        <div class="card shadow-lg border-0 rounded-4 glass-effect">
-            <div class="card-header bg-transparent border-0 text-center pt-5 pb-3">
-                <h1 class="fw-bold text-dark display-6">Resume Builder</h1>
-                <p class="text-muted">Select a professional layout.</p>
-            </div>
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-9 col-xl-8">
             
-            <div class="card-body p-5 pt-0">
-                <form action="/build-resume" method="POST">
+            <form action="/generate-cv" method="POST" enctype="multipart/form-data">
+                <input type="hidden" name="template_id" id="template_id" value="1">
+
+                <div class="mb-5 text-center">
+                    <h3 class="fw-bold text-dark mb-2">Select Your Style</h3>
+                    <p class="text-muted mb-4">Choose a professional template</p>
                     
-                    <h5 class="fw-bold mb-4 text-primary"><i class="fas fa-layer-group me-2"></i>Step 1: Select Layout</h5>
-                    
-                    <div class="row g-4 justify-content-center mb-5">
-                        
-                        <div class="col-md-4">
-                            <input type="radio" class="btn-check" name="template" id="t1" value="modern" checked>
-                            <label class="w-100" for="t1">
-                                <div class="check-badge"><i class="fas fa-check"></i></div>
-                                <div class="theme-card">
-                                    <div class="visual-modern">
-                                        <div class="vm-left">
-                                            <div class="vm-circle"></div>
-                                            <div class="vm-line"></div>
-                                            <div class="vm-line"></div>
-                                        </div>
-                                        <div class="vm-right">
-                                            <div class="vm-decor"></div>
-                                            <div style="position:absolute; top:40px; left:15px; width:80%; height:4px; background:#ddd;"></div>
-                                            <div style="position:absolute; top:50px; left:15px; width:60%; height:4px; background:#ddd;"></div>
-                                        </div>
-                                    </div>
-                                    <div class="p-2 text-center bg-light border-top" style="position:absolute; bottom:0; width:100%;">
-                                        <h6 class="fw-bold mb-0">Corporate Blue</h6>
-                                        <small class="text-muted" style="font-size:0.7rem;">Sidebar Layout</small>
-                                    </div>
-                                </div>
-                            </label>
+                    <div class="row g-3 justify-content-center">
+                        <div class="col-4 col-md-3">
+                            <div class="template-option active" onclick="selectTemplate('1', this)">
+                                <i class="fas fa-gem template-icon"></i>
+                                <h6 class="fw-bold mb-1">Modern</h6>
+                                <p class="small text-muted mb-0">Pro Blue</p>
+                            </div>
                         </div>
-
-                        <div class="col-md-4">
-                            <input type="radio" class="btn-check" name="template" id="t2" value="classic">
-                            <label class="w-100" for="t2">
-                                <div class="check-badge"><i class="fas fa-check"></i></div>
-                                <div class="theme-card">
-                                    <div class="visual-classic">
-                                        <div class="vc-head">Aa</div>
-                                        <div class="text-muted small">Standard Format</div>
-                                        <div class="vc-line"></div>
-                                        <div class="vc-block" style="width:80%"></div>
-                                        <div class="vc-block" style="width:60%"></div>
-                                    </div>
-                                    <div class="p-2 text-center bg-light border-top" style="position:absolute; bottom:0; width:100%;">
-                                        <h6 class="fw-bold mb-0">Classic Clean</h6>
-                                        <small class="text-muted" style="font-size:0.7rem;">ATS Friendly</small>
-                                    </div>
-                                </div>
-                            </label>
+                        <div class="col-4 col-md-3">
+                            <div class="template-option" onclick="selectTemplate('2', this)">
+                                <i class="fas fa-file-invoice template-icon" style="background: -webkit-linear-gradient(45deg, #667eea, #764ba2); -webkit-background-clip: text; -webkit-text-fill-color: transparent;"></i>
+                                <h6 class="fw-bold mb-1">Classic</h6>
+                                <p class="small text-muted mb-0">Clean</p>
+                            </div>
                         </div>
-
-                        <div class="col-md-4">
-                            <input type="radio" class="btn-check" name="template" id="t3" value="creative">
-                            <label class="w-100" for="t3">
-                                <div class="check-badge"><i class="fas fa-check"></i></div>
-                                <div class="theme-card">
-                                    <div class="visual-creative">
-                                        <div class="vcr-header">
-                                            <div class="vcr-circle"></div>
-                                        </div>
-                                        <div class="vcr-body">
-                                            <div class="vcr-tag">SKILL</div>
-                                            <div class="vcr-tag">CODE</div>
-                                            <div style="margin-top:15px; height:4px; width:100%; background:#eee;"></div>
-                                            <div style="margin-top:5px; height:4px; width:70%; background:#eee;"></div>
-                                        </div>
-                                    </div>
-                                    <div class="p-2 text-center bg-light border-top" style="position:absolute; bottom:0; width:100%;">
-                                        <h6 class="fw-bold mb-0">Modern Pro</h6>
-                                        <small class="text-muted" style="font-size:0.7rem;">Header Accent</small>
-                                    </div>
-                                </div>
-                            </label>
+                        <div class="col-4 col-md-3">
+                            <div class="template-option" onclick="selectTemplate('3', this)">
+                                <i class="fas fa-layer-group template-icon" style="background: -webkit-linear-gradient(45deg, #ff9a9e, #fecfef); -webkit-background-clip: text; -webkit-text-fill-color: transparent;"></i>
+                                <h6 class="fw-bold mb-1">Creative</h6>
+                                <p class="small text-muted mb-0">Bold</p>
+                            </div>
                         </div>
+                    </div>
+                </div>
 
+                <div class="pro-card p-4 p-md-5">
+                    <div class="text-center mb-5">
+                        <div class="d-inline-block p-3 rounded-circle mb-3" style="background: rgba(79, 172, 254, 0.1);">
+                            <i class="fas fa-wand-magic-sparkles fa-2x text-primary"></i>
+                        </div>
+                        <h4 class="fw-bold">Build Your Resume</h4>
+                        <p class="text-muted">Enter details & let AI format it.</p>
                     </div>
 
-                    <h5 class="fw-bold mb-4 text-primary"><i class="fas fa-pen-alt me-2"></i>Step 2: Enter Details</h5>
-                    
-                    <div class="p-4 rounded-3 bg-light border">
-                        <div class="row mb-3">
-                            <div class="col-md-6">
-                                <label class="small fw-bold text-muted mb-1">Full Name</label>
+                    <div class="section-header">
+                        <span>1</span>
+                        <h6>Personal Details</h6>
+                        <div class="section-line"></div>
+                    </div>
+
+                    <div class="row g-4 mb-5">
+                        <div class="col-12 text-center">
+                            <label class="form-label">Profile Picture (Optional)</label>
+                            <input type="file" name="profile_pic" class="form-control" accept="image/*">
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label">Full Name</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="fas fa-user"></i></span>
                                 <input type="text" name="name" class="form-control" placeholder="e.g. Fahim Laghari" required>
                             </div>
-                            <div class="col-md-6">
-                                <label class="small fw-bold text-muted mb-1">Job Title</label>
-                                <input type="text" name="role" class="form-control" placeholder="e.g. Software Engineer" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Job Title (Required for AI)</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="fas fa-briefcase"></i></span>
+                                <input type="text" name="designation" id="designation" class="form-control" placeholder="e.g. Python Developer" required>
+                                <button type="button" class="btn-ai" onclick="generateAI()" id="aiBtn">
+                                    <i class="fas fa-magic me-1"></i> AI Write
+                                </button>
+                            </div>
+                            <small class="text-muted">Tip: Enter Job Title and click "AI Write"!</small>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Email</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+                                <input type="email" name="email" class="form-control" placeholder="name@example.com" required>
                             </div>
                         </div>
-
-                        <div class="row mb-3">
-                            <div class="col-md-6">
-                                <label class="small fw-bold text-muted mb-1">Email</label>
-                                <input type="email" name="email" class="form-control" placeholder="fahim@example.com" required>
-                            </div>
-                            <div class="col-md-6">
-                                <label class="small fw-bold text-muted mb-1">Phone</label>
-                                <input type="text" name="phone" class="form-control" placeholder="+92 300 1234567">
+                        <div class="col-md-6">
+                            <label class="form-label">Phone</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="fas fa-phone"></i></span>
+                                <input type="text" name="phone" class="form-control" placeholder="+92 300 1234567" required>
                             </div>
                         </div>
-
-                        <div class="mb-3">
-                            <label class="small fw-bold text-muted mb-1">Skills (Comma Separated)</label>
-                            <input type="text" name="skills" class="form-control" placeholder="Python, Java, HTML, CSS, Flask..." required>
-                        </div>
-
-                        <div class="mb-3">
-                            <label class="small fw-bold text-muted mb-1">Professional Experience</label>
-                            <textarea name="experience" class="form-control" rows="4" placeholder="Describe your experience..."></textarea>
-                        </div>
-
-                        <div class="mb-3">
-                            <label class="small fw-bold text-muted mb-1">Education</label>
-                            <textarea name="education" class="form-control" rows="3" placeholder="University Degree, Year..."></textarea>
+                        <div class="col-12">
+                            <label class="form-label">Summary (AI will fill this)</label>
+                            <textarea name="summary" id="summary" class="form-control single" rows="3" placeholder="Click 'AI Write' to auto-generate..."></textarea>
                         </div>
                     </div>
 
-                    <div class="text-center mt-5">
-                        <button type="submit" class="btn btn-dark btn-lg rounded-pill px-5 py-3 shadow fw-bold">
-                            Generate Resume <i class="fas fa-arrow-right ms-2"></i>
-                        </button>
+                    <div class="section-header">
+                        <span>2</span>
+                        <h6>Expertise</h6>
+                        <div class="section-line"></div>
+                    </div>
+                    <div class="mb-5">
+                        <label class="form-label">Skills (Comma separated)</label>
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="fas fa-code"></i></span>
+                            <input type="text" name="skills" class="form-control" placeholder="Python, HTML, CSS..." required>
+                        </div>
                     </div>
 
-                </form>
-            </div>
+                    <div class="section-header">
+                        <span>3</span>
+                        <h6>Experience (Optional)</h6>
+                        <div class="section-line"></div>
+                    </div>
+                    <div class="row g-4 mb-5">
+                        <div class="col-12">
+                            <label class="form-label">Company</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="fas fa-building"></i></span>
+                                <input type="text" name="company" class="form-control" placeholder="Leave empty if fresher">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Start Date</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="fas fa-calendar-plus"></i></span>
+                                <input type="date" name="start_date" class="form-control">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">End Date</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="fas fa-calendar-check"></i></span>
+                                <input type="date" name="end_date" class="form-control">
+                            </div>
+                        </div>
+                        
+                        <div class="col-12">
+                            <label class="form-label">Description (AI will fill this)</label>
+                            <textarea name="job_desc" id="job_desc" class="form-control single" rows="4" placeholder="Click 'AI Write' to auto-generate..."></textarea>
+                        </div>
+                    </div>
+
+                    <div class="section-header">
+                        <span>4</span>
+                        <h6>Education</h6>
+                        <div class="section-line"></div>
+                    </div>
+                    <div class="row g-4 mb-5">
+                        <div class="col-md-6">
+                            <label class="form-label">Degree</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="fas fa-graduation-cap"></i></span>
+                                <input type="text" name="degree" class="form-control" placeholder="BS CS" required>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">University</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="fas fa-university"></i></span>
+                                <input type="text" name="university" class="form-control" placeholder="University Name" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-generate w-100 py-3 fw-bold rounded-pill shadow-sm text-uppercase" style="letter-spacing: 1px;">
+                        Generate Resume <i class="fas fa-magic ms-2"></i>
+                    </button>
+                </div>
+
+            </form>
         </div>
     </div>
 </div>
+
+<script>
+    function selectTemplate(id, element) {
+        document.getElementById('template_id').value = id;
+        document.querySelectorAll('.template-option').forEach(el => el.classList.remove('active'));
+        element.classList.add('active');
+    }
+    async function generateAI() {
+        const titleInput = document.getElementById('designation');
+        const summaryInput = document.getElementById('summary');
+        const descInput = document.getElementById('job_desc');
+        const btn = document.getElementById('aiBtn');
+        const originalBtnText = btn.innerHTML;
+
+        const jobTitle = titleInput.value;
+
+        if (!jobTitle) {
+            alert("Please enter a Job Title first (e.g., Web Developer).");
+            return;
+        }
+        btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Writing...';
+        btn.disabled = true;
+
+        try {
+            const response = await fetch('/ai-write', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ job_title: jobTitle })
+            });
+
+            const data = await response.json();
+
+            if (data.error) {
+                alert("Error: " + data.error);
+            } else {
+                summaryInput.value = data.summary;
+                descInput.value = data.description;
+            }
+
+        } catch (error) {
+            console.error('Error:', error);
+            alert("Something went wrong. Check internet connection.");
+        } finally {
+            btn.innerHTML = originalBtnText;
+            btn.disabled = false;
+        }
+    }
+</script>
 {% endblock %}

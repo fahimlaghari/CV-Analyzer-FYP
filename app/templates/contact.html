@@ -1,0 +1,143 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<style>
+    .contact-card {
+        background: #fff;
+        border-radius: 20px;
+        overflow: hidden;
+        box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+    }
+    .profile-section {
+        background: linear-gradient(135deg, #0d6efd 0%, #0099ff 100%);
+        color: white;
+        position: relative;
+        overflow: hidden;
+    }
+    /* Background Circles Animation */
+    .circle-deco {
+        position: absolute;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 50%;
+    }
+    .c1 { width: 200px; height: 200px; top: -50px; left: -50px; }
+    .c2 { width: 150px; height: 150px; bottom: -30px; right: -30px; }
+
+    /* Social Icons Hover Effect */
+    .social-btn {
+        width: 45px; height: 45px;
+        display: inline-flex;
+        align-items: center; justify-content: center;
+        border-radius: 50%;
+        background: rgba(255,255,255,0.2);
+        color: white;
+        text-decoration: none;
+        font-size: 1.2rem;
+        transition: all 0.3s ease;
+        margin-right: 10px;
+    }
+    .social-btn:hover {
+        background: white;
+        color: #0d6efd;
+        transform: translateY(-5px); 
+        box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    }
+    .form-control:focus {
+        box-shadow: none;
+        border-color: #0d6efd;
+        background-color: #f8f9fa;
+    }
+</style>
+
+<div class="row justify-content-center align-items-center py-5">
+    <div class="col-lg-10">
+        <div class="contact-card">
+            <div class="row g-0">
+                
+                <div class="col-md-5 profile-section p-5 d-flex flex-column justify-content-center text-center">
+                    <div class="circle-deco c1"></div>
+                    <div class="circle-deco c2"></div>
+
+                    <div class="mb-4 position-relative z-1">
+                        <img src="https://ui-avatars.com/api/?name=Fahim+Laghari&background=fff&color=0d6efd&size=128" 
+                             class="rounded-circle shadow p-1 bg-white" alt="Profile">
+                    </div>
+
+                    <h2 class="fw-bold position-relative z-1">Fahim Laghari</h2>
+                    <p class="opacity-75 mb-4 position-relative z-1">CS Final Year Student & Full Stack Developer</p>
+
+                    <div class="text-start px-4 position-relative z-1">
+                        <div class="d-flex align-items-center mb-3">
+                            <i class="fas fa-envelope me-3 fs-5"></i>
+                            <span>fahimlaghari9@gmail.com</span>
+                        </div>
+                        <div class="d-flex align-items-center mb-4">
+                            <i class="fas fa-phone-alt me-3 fs-5"></i>
+                            <span>+92 307 2176346</span>
+                        </div>
+                    </div>
+
+                    <div class="mt-auto position-relative z-1">
+                        
+                        <a href="https://www.linkedin.com/in/fahim-laghari" target="_blank" class="social-btn">
+                            <i class="fab fa-linkedin-in"></i>
+                        </a>
+
+                        <a href="https://github.com/fahimlaghari" target="_blank" class="social-btn">
+                            <i class="fab fa-github"></i>
+                        </a>
+
+                        <a href="https://wa.me/923072176346" target="_blank" class="social-btn">
+                            <i class="fab fa-whatsapp"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div class="col-md-7 bg-white p-5">
+                    <h3 class="fw-bold text-dark mb-2">Get in Touch</h3>
+                    <p class="text-muted mb-4">Have a project in mind? Let's talk.</p>
+
+                    <form method="POST">
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label class="form-label small fw-bold text-secondary">Your Name</label>
+                                <input type="text" name="name" class="form-control bg-light border-0 py-2" placeholder="fahim laghari" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label small fw-bold text-secondary">Email</label>
+                                <input type="email" name="email" class="form-control bg-light border-0 py-2" placeholder="fahimlaghari9@gmail.com" required>
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label small fw-bold text-secondary">Message</label>
+                                <textarea name="message" class="form-control bg-light border-0" rows="5" placeholder="Type your message..." required></textarea>
+                            </div>
+                            <div class="col-12 mt-3">
+                                <button type="submit" class="btn btn-primary w-100 py-3 fw-bold rounded-3 shadow-sm">
+                                    Send Message <i class="fas fa-paper-plane ms-2"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+{% if success %}
+<script>
+    Swal.fire({
+        title: 'Sent!',
+        text: '{{ success }}',
+        icon: 'success',
+        confirmButtonColor: '#0d6efd',
+        confirmButtonText: 'Great!'
+    });
+</script>
+{% endif %}
+
+{% endblock %}

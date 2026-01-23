@@ -3,101 +3,64 @@
 {% block content %}
 <div class="container py-4">
     
-    <div class="row mb-4">
-        <div class="col-md-6">
-            <h2 class="fw-bold"><i class="fas fa-tachometer-alt me-2 text-primary"></i>Admin Dashboard</h2>
-            <p class="text-muted">Overview of uploaded resumes and analysis.</p>
-        </div>
-        <div class="col-md-3">
-            <div class="card bg-primary text-white p-3 shadow-sm text-center">
-                <h3>{{ stats.total }}</h3>
-                <small>Total CVs Scanned</small>
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="fw-bold"><i class="fas fa-crown text-warning me-2"></i>Admin Dashboard</h2>
+        <a href="/logout" class="btn btn-danger btn-sm">Logout</a>
+    </div>
+
+    <div class="row g-4 mb-5">
+        <div class="col-md-4">
+            <div class="card bg-primary text-white border-0 shadow-sm rounded-4">
+                <div class="card-body p-4">
+                    <h3>{{ stats.total }}</h3>
+                    <p class="mb-0 opacity-75">Total CVs Analyzed</p>
+                </div>
             </div>
         </div>
-        <div class="col-md-3">
-            <div class="card bg-success text-white p-3 shadow-sm text-center">
-                <h3>{{ stats.avg_score }}%</h3>
-                <small>Average Score</small>
+        <div class="col-md-4">
+            <div class="card bg-success text-white border-0 shadow-sm rounded-4">
+                <div class="card-body p-4">
+                    <h3>{{ stats.avg_score }}%</h3>
+                    <p class="mb-0 opacity-75">Average CV Score</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card bg-warning text-dark border-0 shadow-sm rounded-4">
+                <div class="card-body p-4">
+                    <h3>{{ stats.total_msgs }}</h3>
+                    <p class="mb-0 opacity-75">New Messages</p>
+                </div>
             </div>
         </div>
     </div>
 
-    <div class="card border-0 shadow-sm rounded-4">
+    <div class="card border-0 shadow-sm rounded-4 mb-5">
+        <div class="card-header bg-white py-3">
+            <h5 class="fw-bold mb-0 text-primary"><i class="fas fa-envelope me-2"></i>Recent Messages</h5>
+        </div>
         <div class="card-body p-0">
             <div class="table-responsive">
                 <table class="table table-hover align-middle mb-0">
-                    <thead class="bg-light text-muted">
+                    <thead class="bg-light">
                         <tr>
-                            <th class="p-3">#</th>
-                            <th class="p-3">Filename</th>
-                            <th class="p-3">Upload Date</th>
-                            <th class="p-3 text-center">Score</th>
-                            <th class="p-3 text-center">Actions</th>
+                            <th class="ps-4">Name</th>
+                            <th>Email</th>
+                            <th>Message</th>
+                            <th>Date</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {% for user in data %}
+                        {% for msg in messages %}
                         <tr>
-                            <td class="p-3 fw-bold text-muted">{{ loop.index }}</td>
-                            <td class="p-3 fw-bold text-dark">
-                                <i class="fas fa-file-pdf text-danger me-2"></i> {{ user.filename }}
-                            </td>
-                            <td class="p-3 text-muted small">{{ user.upload_date.strftime('%Y-%m-%d %H:%M') }}</td>
-                            <td class="p-3 text-center">
-                                <span class="badge rounded-pill bg-{{ 'success' if user.score >= 70 else ('warning' if user.score >= 40 else 'danger') }}">
-                                    {{ user.score }}%
-                                </span>
-                            </td>
-                            <td class="p-3 text-center">
-                                <button class="btn btn-sm btn-outline-primary rounded-circle" 
-                                        data-bs-toggle="modal" 
-                                        data-bs-target="#viewModal{{ user.id }}" 
-                                        title="View Details">
-                                    <i class="fas fa-eye"></i>
-                                </button>
-                            </td>
+                            <td class="ps-4 fw-bold">{{ msg.name }}</td>
+                            <td><a href="mailto:{{ msg.email }}" class="text-decoration-none">{{ msg.email }}</a></td>
+                            <td class="text-muted">{{ msg.message }}</td>
+                            <td><small class="text-muted">{{ msg.date_sent.strftime('%Y-%m-%d') }}</small></td>
                         </tr>
-
-                        <div class="modal fade" id="viewModal{{ user.id }}" tabindex="-1" aria-hidden="true">
-                            <div class="modal-dialog modal-dialog-centered">
-                                <div class="modal-content border-0 shadow">
-                                    <div class="modal-header bg-light">
-                                        <h5 class="modal-title fw-bold"><i class="fas fa-id-card me-2 text-primary"></i>Candidate Details</h5>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                    </div>
-                                    <div class="modal-body p-4">
-                                        <div class="text-center mb-4">
-                                            <div class="display-4 fw-bold text-{{ 'success' if user.score >= 70 else ('warning' if user.score >= 40 else 'danger') }}">
-                                                {{ user.score }}%
-                                            </div>
-                                            <small class="text-muted">Resume Score</small>
-                                        </div>
-                                        
-                                        <div class="mb-3">
-                                            <label class="small fw-bold text-muted">Filename:</label>
-                                            <div class="fw-bold">{{ user.filename }}</div>
-                                        </div>
-                                        
-                                        <div class="mb-3">
-                                            <label class="small fw-bold text-muted">Detected Skills:</label>
-                                            <div class="p-2 bg-light rounded border mt-1" style="font-family: monospace; font-size: 0.9rem;">
-                                                {{ user.skills if user.skills else 'No skills detected' }}
-                                            </div>
-                                        </div>
-
-                                        <div class="text-end mt-4">
-                                            <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Close</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
                         {% else %}
                         <tr>
-                            <td colspan="5" class="text-center p-5 text-muted">
-                                <i class="fas fa-folder-open fa-2x mb-3 d-block opacity-50"></i>
-                                No records found yet.
-                            </td>
+                            <td colspan="4" class="text-center py-4 text-muted">No messages yet.</td>
                         </tr>
                         {% endfor %}
                     </tbody>
@@ -105,5 +68,44 @@
             </div>
         </div>
     </div>
+
+    <div class="card border-0 shadow-sm rounded-4">
+        <div class="card-header bg-white py-3">
+            <h5 class="fw-bold mb-0 text-dark"><i class="fas fa-users me-2"></i>Candidates List</h5>
+        </div>
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0">
+                    <thead class="bg-light">
+                        <tr>
+                            <th class="ps-4">Filename</th>
+                            <th>Skills Found</th>
+                            <th>Score</th>
+                            <th>Date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for row in data %}
+                        <tr>
+                            <td class="ps-4">{{ row.filename }}</td>
+                            <td><small class="text-primary bg-light px-2 py-1 rounded">{{ row.skills }}</small></td>
+                            <td>
+                                {% if row.score >= 70 %}
+                                    <span class="badge bg-success">{{ row.score }}%</span>
+                                {% elif row.score >= 40 %}
+                                    <span class="badge bg-warning text-dark">{{ row.score }}%</span>
+                                {% else %}
+                                    <span class="badge bg-danger">{{ row.score }}%</span>
+                                {% endif %}
+                            </td>
+                            <td><small class="text-muted">{{ row.upload_date.strftime('%Y-%m-%d') }}</small></td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
 </div>
 {% endblock %}

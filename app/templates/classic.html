@@ -1,0 +1,10 @@
+<!DOCTYPE html>
+<html>
+<body style="font-family: 'Times New Roman'; padding: 40px; max-width:800px; margin:auto;">
+    <center><h1>{{ data.name }}</h1><p>{{ data.designation }}</p><p>{{ data.email }} | {{ data.phone }}</p><hr></center>
+    <h3>Experience</h3> <p><b>{{ data.company }}</b> | {{ data.duration }}</p> <p>{{ data.job_desc }}</p>
+    <h3>Education</h3> <p>{{ data.degree }} - {{ data.university }}</p>
+    <h3>Skills</h3> <p>{{ data.skills }}</p>
+    <button onclick="window.print()" style="margin-top:20px;">Print CV</button>
+</body>
+</html>

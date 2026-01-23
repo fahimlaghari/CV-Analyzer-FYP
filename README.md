@@ -1,28 +1,21 @@
-# 📄 CV Analyzer & Job Recommendation System
+# 🚀 AI Resume Analyzer & Job Recommender (FYP)
 
 ## 📌 Project Overview
-This is a Final Year Project (FYP) developed to help students and job seekers analyze their resumes. The system extracts text from uploaded PDF resumes, identifies key technical and soft skills, calculates a "Resume Strength Score," and recommends real-time jobs from LinkedIn and Indeed.
+A sophisticated **AI-powered Career Consultant** that analyzes resumes, extracts skills using NLP, calculates a "Job Readiness Score," and provides real-time job recommendations from LinkedIn & Indeed. Built with a **Professional MVC Architecture** and **Glassmorphism UI**.
 
-## 🚀 Key Features
-- **PDF Parsing:** Extracts text automatically from PDF documents.
-- **Skill Extraction:** Identifies 100+ technical and soft skills using NLP techniques.
-- **Smart Scoring:** Calculates a resume score (0-100) based on skill density.
-- **Job Recommendation:** Generates real-time search links for LinkedIn & Indeed.
-- **Database Integration:** Saves user data, skills, and scores in **MySQL Database**.
-- **Admin Dashboard:** A secured panel to view uploaded CV statistics.
+## ✨ Key Features
+- **🧠 Hybrid Parsing Engine:** Uses `pdfplumber` & `pdfminer` to read complex layouts (Canva/Modern CVs).
+- **🎨 Glassmorphism UI:** Modern, responsive, and aesthetic interface.
+- **🔒 Secure Admin Panel:** Protected dashboard with Login System.
+- **📊 Analytics:** Visual statistics of candidates and average scores.
+- **☁️ Cloud-Ready:** Database backed with robust error handling.
 
 ## 🛠️ Tech Stack
-- **Frontend:** HTML5, CSS3, Bootstrap 5
-- **Backend:** Python (Flask)
-- **Database:** MySQL (via XAMPP)
-- **Libraries:** PDFMiner.six, PyMySQL, SQLAlchemy
+- **Backend:** Python (Flask), SQLAlchemy, MySQL
+- **Frontend:** HTML5, CSS3 (Glassmorphism), Bootstrap 5
+- **Database:** MySQL (XAMPP)
 
-## ⚙️ How to Run Locally
-
-1. **Clone the Project**
-   Extract the folder to your desired location.
-
-2. **Install Dependencies**
-   Open terminal and run:
+## ⚙️ How to Run
+1. **Install Dependencies:**
    ```bash
    pip install -r requirements.txt
